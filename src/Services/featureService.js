@@ -1,7 +1,7 @@
 
 export async function featureFunc() {
 
-    const apikey = "AIzaSyDCfDy197PjsbQM1N17YLb5om98CljuV54";
+    const apikey = process.env.REACT_APP_API_KEY
     const clientkey = "my_test_app";
     const lmt = 200;
 
