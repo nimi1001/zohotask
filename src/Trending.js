@@ -1,9 +1,12 @@
-import react, {useEffect, useState} from "react";
+import react, {Fragment, useEffect, useState} from "react";
 import {trendingFunc} from "./Services/trendingService";
 import {searchFunc} from "./Services/searchService";
 import './index.css'
+import {useNavigate} from "react-router-dom";
 
 const  Trending = () => {
+    let navigate = useNavigate()
+
     const [trendKey, setTrendKey] = useState([])
     const [trendGif, setTrendGif] = useState([])
     const [current, setCurrent] = useState({
@@ -62,18 +65,31 @@ const  Trending = () => {
         })
     }
 
+    const handleSearchSubmit = (e, term) => {
+        e.preventDefault()
+
+        if(term !== ''){
+            searchFunc(term).then((res) => {
+                if(res){
+                    navigate(`/search/${term}`, {state: { search: res.results, term: term }})
+                }
+            })
+        }
+    }
+
     const gifRender=()=>{
         return trendGif && trendGif.length && trendGif.map((arr,i)=>{
+
             return(
-                <>
+                <Fragment key={i}>
                     {(i + 1 <= current.end && i + 1 >= current.start) &&
-                        <div className='col-2'>
-                            <img key={i} src={arr.media_formats.tinygif.url} alt="gif" className='m-3 trending'/>
+                        <div className='col-2' onClick={(e) => handleSearchSubmit(e,arr.title)}>
+                            <img src={arr.media_formats.tinygif.url} alt="gif" className='m-3 trending'/>
                             <p className=''><b>{arr.title}</b></p>
                         </div>
 
                     }
-                </>
+                </Fragment>
             )
         })
     }

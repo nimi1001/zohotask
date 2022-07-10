@@ -4,40 +4,26 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import {useEffect, useState} from "react";
 import {searchFunc} from "./Services/searchService";
-import App from "./App";
-import {featureFunc} from "./Services/featureService";
-import {trendingFunc} from "./Services/trendingService";
+import {useNavigate} from 'react-router-dom'
 
 
-function Nav() {
-    const [term,setTerm] = useState('')
-    const [error,setError]= useState(false)
-    const [search,setSearch]= useState([])
-    const [feature,setFeature]= useState([])
 
-    useEffect( ()=>{
+function Nav(props) {
+    let navigate = useNavigate()
+    const [term,setTerm] = useState(props ? props.term : '')
 
-        featureFunc().then((res) => {
-            if(res){
-                if(res.results && res.results.length > 0){
-                    setFeature(res.results)
-                }else{
-                    setFeature([])
+
+    const handleSearchSubmit = (e) => {
+        e.preventDefault()
+
+        if(term !== ''){
+            searchFunc(term).then((res) => {
+                if(res){
+                    navigate(`/search/${term}`, {state: { search: res.results, term: term }})
                 }
-            }
-        })
-
-    },[])
-
-    useEffect( ()=>{
-      if(term !== ''){
-          searchFunc(term).then((res) => {
-              if(res){
-                  setSearch(res.results)
-              }
-          })
-      }
-    },[term])
+            })
+        }
+    }
 
 
     return (
@@ -50,13 +36,14 @@ function Nav() {
                             placeholder="Search"
                             className="me-2"
                             aria-label="Search"
+                            value={term}
                             onChange={(e)=>setTerm(e.target.value)}
                         />
-                        <Button variant="outline-primary" >Search</Button>
+                        <Button variant="outline-primary" onClick={handleSearchSubmit}>Search</Button>
                     </Form>
                 </Container>
             </Navbar>
-            <App feature={feature} error={error} search={{search}}/>
+            {/*<Home feature={feature} error={error}/>*/}
         </>
     )
 }
