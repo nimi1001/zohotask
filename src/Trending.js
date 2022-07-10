@@ -68,7 +68,8 @@ const  Trending = () => {
                 <>
                     {(i + 1 <= current.end && i + 1 >= current.start) &&
                         <div className='col-2'>
-                            <img key={i} src={arr.media_formats.tinygif.url} alt="gif" className='p-1 trending'/>
+                            <img key={i} src={arr.media_formats.tinygif.url} alt="gif" className='m-3 trending'/>
+                            <p className=''><b>{arr.title}</b></p>
                         </div>
 
                     }
@@ -80,13 +81,14 @@ const  Trending = () => {
 
     return(
         <div className='container'>
-            <h1>Trending Gif</h1>
-            <div className="row">
-                {gifRender()}
-                {current.start !== 1 && <div onClick={prevSlide}>----</div>
+            <h1 className='m-2'>Trending Gif</h1>
+            <div className="d-flex carousel-container justify-content-around">
+                {current.start !== 1 && <div className="position-relative" onClick={prevSlide}><img className="position-absolute left-arrow " src="/img/carousel-arrow_prev.svg" alt="left-arrow"/></div>
                 }
+                {gifRender()}
 
-                {!found && <div onClick={nextSlide}>----</div>
+
+                {!found && <div className="position-relative"  onClick={nextSlide}><img className="position-absolute right-arrow " src="/img/carousel-arrow_next.svg" alt="right-arrow"/></div>
                 }
             </div>
 

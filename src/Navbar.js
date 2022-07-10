@@ -8,11 +8,11 @@ import App from "./App";
 import {featureFunc} from "./Services/featureService";
 import {trendingFunc} from "./Services/trendingService";
 
+
 function Nav() {
     const [term,setTerm] = useState('')
     const [error,setError]= useState(false)
-    const[search,setSearch]=useState([])
-    const [trend,setTrend]= useState([])
+    const [search,setSearch]= useState([])
     const [feature,setFeature]= useState([])
 
     useEffect( ()=>{
@@ -33,7 +33,7 @@ function Nav() {
       if(term !== ''){
           searchFunc(term).then((res) => {
               if(res){
-                  console.log(res)
+                  setSearch(res.results)
               }
           })
       }
@@ -52,11 +52,11 @@ function Nav() {
                             aria-label="Search"
                             onChange={(e)=>setTerm(e.target.value)}
                         />
-                        <Button variant="outline-primary">Search</Button>
+                        <Button variant="outline-primary" >Search</Button>
                     </Form>
                 </Container>
             </Navbar>
-            <App feature={feature} error={error}/>
+            <App feature={feature} error={error} search={{search}}/>
         </>
     )
 }

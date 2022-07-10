@@ -1,8 +1,13 @@
-/*.img-div {*/
-/*    display: flex;*/
-/*    flex-wrap: wrap;*/
-/*}*/
 
+.carousel-container .left-arrow {
+    top: 30%;
+    right: 0%;
+    cursor: pointer;
+}
+.carousel-container .right-arrow {
+    top:30%;
+    cursor: pointer;
+}
 
 .giflist .column{
     flex-basis: 0;
@@ -18,8 +23,8 @@
     background-position: 50%;
     background-size: cover;
     border-radius: 2px;
-    height: 90px;
+    height: 100px;
     padding: 10px;
     position: relative;
-    width: 100%;
+    width: 225px;
 }
